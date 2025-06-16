@@ -174,8 +174,8 @@ if ($result_customers->num_rows > 0) {
             </thead>
             <tbody>
                 <?php
-                $sql = "SELECT pl.id_pesanan, p.nama, pl.tanggal_masuk, pl.tanggal_selesai_estimasi, pl.berat_kg, pl.jenis_layanan, pl.total_harga, pl.status_pesanan FROM Pesanan pl JOIN Pelanggan p ON pl.id_pelanggan = p.id_pelanggan ORDER BY pl.tanggal_masuk DESC";
-                $result = mysqli_query($koneksi, "SELECT * FROM Pesanan");
+                $sql = "SELECT pl.id_pesanan, p.nama, pl.tanggal_masuk, pl.tanggal_selesai_estimasi, pl.berat_kg, p.jenis_layanan, pl.total_harga, pl.status_pesanan FROM Pesanan pl JOIN Pelanggan p ON pl.id_pelanggan = p.id_pelanggan ORDER BY pl.tanggal_masuk DESC";
+                $result = $koneksi->query($sql);
 
                 if ($result->num_rows > 0) {
                     while($row = $result->fetch_assoc()) {
@@ -186,11 +186,11 @@ if ($result_customers->num_rows > 0) {
                         echo "<td>" . $row["tanggal_selesai_estimasi"] . "</td>";
                         echo "<td>" . $row["berat_kg"] . "</td>";
                         echo "<td>" . $row["jenis_layanan"] . "</td>";
-                        echo "<td>" . number_format($row["total_harga"], 0, ',', '.') . "</td>"; // Format harga
+                        echo "<td>" . number_format($row["total_harga"], 0, ',', '.') . "</td>";
                         echo "<td>" . $row["status_pesanan"] . "</td>";
                         echo "<td>";
-                        echo "<a href='orders.php?action=edit_order&id=" . $row["id_pesanan"] . "' class='btn btn-edit'>Edit</a> ";
-                        echo "<a href='orders.php?action=delete_order&id=" . $row["id_pesanan"] . "' class='btn btn-delete' onclick='return confirm(\"Yakin ingin menghapus pesanan ini?\")'>Hapus</a>";
+                        echo "<a href='add.php?action=edit_order&id=" . $row["id_pesanan"] . "' class='btn btn-edit'>Edit</a> ";
+                        echo "<a href='add.php?action=delete_order&id=" . $row["id_pesanan"] . "' class='btn btn-delete' onclick='return confirm(\"Yakin ingin menghapus pesanan ini?\")'>Hapus</a>";
                         echo "</td>";
                         echo "</tr>";
                     }
@@ -201,9 +201,6 @@ if ($result_customers->num_rows > 0) {
             </tbody>
         </table>
 
-        ---
-
-        <h2>Operasi Agregat</h2>
         <p>Berikut adalah beberapa statistik dari data pesanan Anda:</p>
         <ul>
             <?php
