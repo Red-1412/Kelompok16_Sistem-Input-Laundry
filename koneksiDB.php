@@ -4,5 +4,5 @@
  $password = "";
  $database = "project_UAS_5_35";
 
- $koneksi = new mysqli(hostname: $hostname, username: $username, password: $password, database: $database);
+ $koneksi = new mysqli($hostname,$username,$password,$database);
 ?>

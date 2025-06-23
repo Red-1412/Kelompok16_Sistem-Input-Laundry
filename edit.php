@@ -1,5 +1,5 @@
 <?php
-    include 'koneksiDB.php';
+    @include 'koneksiDB.php';
 
     $id = $_GET['id'];
     $query = mysqli_query($koneksi,"SELECT * FROM pelanggan WHERE id_pelanggan = '$id'");

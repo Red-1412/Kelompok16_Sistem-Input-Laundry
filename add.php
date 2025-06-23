@@ -17,16 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Calculate total_harga using the PHP function
         $total_harga = HitungHargaLaundry($berat_kg, $jenis_layanan);
 
-        $sql = "INSERT INTO Pesanan (id_pelanggan, tanggal_masuk, tanggal_selesai_estimasi, berat_kg, jenis_layanan, total_harga, status_pesanan) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        $stmt = $koneksi->prepare($sql);
-        $stmt->bind_param("isssdss", $id_pelanggan, $tanggal_masuk, $tanggal_selesai_estimasi, $berat_kg, $jenis_layanan, $total_harga, $status_pesanan);
-
-        if ($stmt->execute()) {
-            $message = "<div class='message'>Pesanan laundry baru berhasil ditambahkan!</div>";
-        } else {
-            $message = "<div class='message' style='background-color:#f8d7da; color:#721c24; border-color:#f5c6cb;'>Error: " . $stmt->error . "</div>";
-        }
-        $stmt->close();
+        $sql = mysqli_query($koneksi, "INSERT INTO Pesanan (id_pelanggan, tanggal_masuk, tanggal_selesai_estimasi, berat_kg, jenis_layanan, total_harga, status_pesanan)
+         VALUES ('$id_pelanggan', '$tanggal_masuk', '$tanggal_selesai_estimasi', '$berat_kg', '$jenis_layanan', '$total_harga', '$status_pesanan')");
     } elseif (isset($_POST['edit_order'])) {
         $id_pesanan = $_POST['id_pesanan'];
         $id_pelanggan = $_POST['id_pelanggan'];
@@ -98,7 +90,7 @@ if ($result_customers->num_rows > 0) {
         <h1>Manajemen Pesanan Laundry</h1>
         <nav>
             <ul>
-                <li><a href="index.php">Pesanan Aktif</a></li>
+                <li><a href="pesananaktif.php">Pesanan Aktif</a></li>
                 <li><a href="customers.php">Manajemen Pelanggan</a></li>
                 <li><a href="add.php">Manajemen Pesanan</a></li>
             </ul>
@@ -174,7 +166,7 @@ if ($result_customers->num_rows > 0) {
             </thead>
             <tbody>
                 <?php
-                $sql = "SELECT pl.id_pesanan, p.nama, pl.tanggal_masuk, pl.tanggal_selesai_estimasi, pl.berat_kg, p.jenis_layanan, pl.total_harga, pl.status_pesanan FROM Pesanan pl JOIN Pelanggan p ON pl.id_pelanggan = p.id_pelanggan ORDER BY pl.tanggal_masuk DESC";
+                $sql = "SELECT pl.id_pesanan, p.nama, pl.tanggal_masuk, pl.tanggal_selesai_estimasi, pl.berat_kg, jenis_layanan, pl.total_harga, pl.status_pesanan FROM Pesanan pl JOIN Pelanggan p ON pl.id_pelanggan = p.id_pelanggan ORDER BY pl.tanggal_masuk DESC";
                 $result = $koneksi->query($sql);
 
                 if ($result->num_rows > 0) {
